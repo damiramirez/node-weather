@@ -29,6 +29,8 @@ class WeatherRepository {
       throw err;
     }
   }
+
+  weatherByCityId = async () => {};
 }
 
 module.exports = WeatherRepository;

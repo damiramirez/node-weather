@@ -8,6 +8,7 @@ class ExpressServer {
   constructor() {
     this.app = express();
     this.port = config.port;
+    this.basePathCity = `${config.api.prefix}/cities`;
     this.basePathWeather = `${config.api.prefix}/weather`;
 
     this._middleware();
@@ -27,6 +28,7 @@ class ExpressServer {
       res.status(200).end();
     });
 
+    this.app.use(this.basePathCity, require('../../routes/cities'));
     this.app.use(this.basePathWeather, require('../../routes/weather'));
   }
 

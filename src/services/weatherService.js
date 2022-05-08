@@ -1,11 +1,13 @@
 const { info } = require('../loaders/logger');
 const logger = require('../loaders/logger');
 const WeatherRepository = require('../repositories/weatherRepository');
+const CityRepository = require('../repositories/cityRepository');
 
-const repository = new WeatherRepository();
+const weatherRepository = new WeatherRepository();
+const cityRepository = new CityRepository();
 
 const weatherByCoordinates = async (lon, lat) => {
-  const weather = await repository.weatherByCoordinates(lon, lat);
+  const weather = await weatherRepository.weatherByCoordinates(lon, lat);
 
   return {
     description: weather.weather[0].description,
@@ -15,6 +17,15 @@ const weatherByCoordinates = async (lon, lat) => {
   };
 };
 
+const weatherByCityId = async (city, id) => {
+  const cities = await cityRepository.findCities(city);
+  const searchedCity = cities.features.filter((city) => city.id === id);
+  const lon = searchedCity[0].geometry.coordinates[0];
+  const lat = searchedCity[0].geometry.coordinates[1];
+  return await weatherByCoordinates(lon, lat);
+};
+
 module.exports = {
   weatherByCoordinates,
+  weatherByCityId,
 };
