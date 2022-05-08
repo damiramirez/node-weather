@@ -1,7 +1,6 @@
 const express = require('express');
-const CityRepository = require('../repositories/cityRepository');
-
-const repository = new CityRepository();
+const { findCities } = require('../services/cityService');
+const Success = require('../handlers/successHandler');
 
 /**
  *
@@ -10,8 +9,9 @@ const repository = new CityRepository();
  */
 const cities = async (req, res) => {
   const { city } = req.params;
+  const success = new Success(await findCities(city));
 
-  res.json(await repository.findCities(city));
+  res.json(success);
 };
 
 module.exports = {
