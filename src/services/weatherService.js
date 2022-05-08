@@ -19,9 +19,9 @@ const weatherByCoordinates = async (lon, lat) => {
 
 const weatherByCityId = async (city, id) => {
   const cities = await cityRepository.findCities(city);
-  const searchedCity = cities.features.filter((city) => city.id === id);
-  const lon = searchedCity[0].geometry.coordinates[0];
-  const lat = searchedCity[0].geometry.coordinates[1];
+  const searchedCity = cities.features.find((city) => city.id === id);
+  const lon = searchedCity.geometry.coordinates[0];
+  const lat = searchedCity.geometry.coordinates[1];
   return await weatherByCoordinates(lon, lat);
 };
 
